@@ -1,8 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+
+  describe "associations" do
+    it { should have_one(:athlete) } 
+  end
+  
   describe 'validations' do
-    # subject { build(:user) }
     subject { create(:user) }
 
     it { should validate_presence_of(:first_name) }

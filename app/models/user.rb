@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
 
+  has_one :athlete, dependent: :destroy
+
   validates :first_name, presence: :true
   validates :last_name, presence: :true
   validates :username, uniqueness: { case_sensitive: false }
