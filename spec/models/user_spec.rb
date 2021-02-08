@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
 
   describe "associations" do
     it { should have_one(:athlete) } 
+    it { should have_one(:coach) } 
   end
   
   describe 'validations' do

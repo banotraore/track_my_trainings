@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_one :athlete, dependent: :destroy
+  has_one :coach, dependent: :destroy
 
   validates :first_name, presence: :true
   validates :last_name, presence: :true
