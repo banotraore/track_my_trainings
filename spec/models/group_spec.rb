@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Group, type: :model do
   describe 'associations' do
     it { should belong_to(:team) }
+    it { should have_many(:group_athletes) }
   end
 
   describe 'validations' do

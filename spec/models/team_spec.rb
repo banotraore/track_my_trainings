@@ -4,6 +4,7 @@ RSpec.describe Team, type: :model do
 
   describe "associations" do
     it { should have_many(:groups) } 
+    it { should have_many(:athletes).through(:groups) } 
   end
   
   describe 'validations' do
