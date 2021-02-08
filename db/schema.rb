@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_08_221045) do
+ActiveRecord::Schema.define(version: 2021_02_08_223028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -69,6 +69,19 @@ ActiveRecord::Schema.define(version: 2021_02_08_221045) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "trainings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "trainable_type", null: false
+    t.uuid "trainable_id", null: false
+    t.datetime "date"
+    t.uuid "facility_id"
+    t.text "description"
+    t.boolean "on_spikes", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["facility_id"], name: "index_trainings_on_facility_id"
+    t.index ["trainable_type", "trainable_id"], name: "index_trainings_on_trainable"
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -110,4 +123,5 @@ ActiveRecord::Schema.define(version: 2021_02_08_221045) do
   add_foreign_key "group_coaches", "coaches"
   add_foreign_key "group_coaches", "groups"
   add_foreign_key "groups", "teams"
+  add_foreign_key "trainings", "facilities"
 end

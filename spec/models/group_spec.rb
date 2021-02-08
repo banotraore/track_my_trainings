@@ -5,6 +5,7 @@ RSpec.describe Group, type: :model do
     it { should belong_to(:team) }
     it { should have_many(:group_athletes) }
     it { should have_many(:group_coaches) }
+    it { should have_many(:trainings) } 
   end
 
   describe 'validations' do

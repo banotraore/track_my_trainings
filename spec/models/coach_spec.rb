@@ -7,5 +7,6 @@ RSpec.describe Coach, type: :model do
     it { should have_many(:groups).through(:group_coaches) }
     it { should have_many(:teams).through(:groups) }
     it { should have_many(:athletes).through(:groups) }
+    it { should have_many(:group_trainings).through(:groups) }
   end
 end
