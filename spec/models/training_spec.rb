@@ -9,6 +9,7 @@ RSpec.describe Training, type: :model do
   describe 'associations' do
     it { should belong_to(:trainable) }
     it { should belong_to(:facility).optional }
+    it { should have_many(:training_disciplines) } 
   end
 
   describe 'validations' do
