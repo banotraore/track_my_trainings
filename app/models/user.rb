@@ -15,4 +15,14 @@ class User < ActiveRecord::Base
   validates :first_name, presence: :true
   validates :last_name, presence: :true
   validates :username, uniqueness: { case_sensitive: false }
+
+  before_save { self.first_name = first_name.titleize }
+  before_save { self.last_name = last_name.titleize }
+  before_save :downcase_username, if: :username?
+
+  private
+
+  def downcase_username
+    self.username = username.downcase if username.present?
+  end
 end

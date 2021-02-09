@@ -1,4 +1,5 @@
 class TrainingDiscipline < ApplicationRecord
+  self.implicit_order_column = 'created_at' 
   belongs_to :training, optional: true
   belongs_to :disciplinable, polymorphic: true, optional: true
 

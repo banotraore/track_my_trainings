@@ -1,4 +1,5 @@
 class GroupCoach < ApplicationRecord
+  self.implicit_order_column = 'created_at' 
   belongs_to :group
   belongs_to :coach
 

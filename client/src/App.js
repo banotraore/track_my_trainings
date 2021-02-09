@@ -1,38 +1,24 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { config } from "./utils/Constants";
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import Interceptors from "./utils/Interceptors";
+import Homepage from "./layouts/Homepage";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import PrivateRoute from "./components/routes/PrivateRoute";
 
 const App = () => {
-  const [teams, setTeams] = useState([]);
-  useEffect(() => {
-    getTeams();
-  }, []);
-
-  const getTeams = () => {
-    axios.defaults.baseURL = config.url.API_URL;
-    axios.defaults.headers.common["Content-Type"] = "application/json";
-    axios.defaults.headers.common["Accept"] = "application/json";
-    axios
-      .get("teams")
-      .then((response) => {
-        setTeams(response.data.teams);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   return (
-    <div className="App">
-      <h1>Homepage</h1>
+    <div>
+      <Interceptors />
+      <BrowserRouter>
+        <Switch>
+          <PrivateRoute exact path="/" component={Homepage} />
 
-      {teams &&
-        teams.map((team, index) => (
-          <div key={index}>
-            <h2>{team.name} </h2>
-
-            <h4>ID: {team.id} </h4>
-          </div>
-        ))}
+          <Route exact path="/login" component={Login} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
 };
