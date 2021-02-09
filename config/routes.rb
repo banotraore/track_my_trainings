@@ -3,6 +3,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       mount_devise_token_auth_for 'User', at: 'auth'
       resources :teams
+      resources :trainings
+      get '/infos' => 'users#get_infos'
+      get '/my-profile' => 'users#get_profile'
     end
   end
 
