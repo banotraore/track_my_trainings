@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_08_233916) do
+ActiveRecord::Schema.define(version: 2021_02_08_235656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 2021_02_08_233916) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_coaches_on_user_id"
+  end
+
+  create_table "disciplines", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "disciplinable_type", null: false
+    t.uuid "disciplinable_id", null: false
+    t.boolean "official"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["disciplinable_type", "disciplinable_id"], name: "index_disciplines_on_disciplinable"
   end
 
   create_table "facilities", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
