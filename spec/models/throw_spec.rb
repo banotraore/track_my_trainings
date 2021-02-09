@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Throw, type: :model do
+  describe 'associations' do
+    it { should have_one(:discipline) }
+  end
+  
   describe 'validations' do
     subject { create(:throw) }
 

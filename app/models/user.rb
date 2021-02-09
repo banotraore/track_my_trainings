@@ -20,9 +20,16 @@ class User < ActiveRecord::Base
   before_save { self.last_name = last_name.titleize }
   before_save :downcase_username, if: :username?
 
+  after_create :create_athlete
+
   private
 
   def downcase_username
     self.username = username.downcase if username.present?
+  end
+
+  # If you have a body you are an athlete. So Every user has an athlete
+  def create_athlete
+    Athlete.create(user_id: id)
   end
 end
