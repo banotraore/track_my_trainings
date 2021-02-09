@@ -5,8 +5,12 @@ json.trainings @trainings do |training|
   json.on_spikes training.on_spikes
   if training.trainable_type == 'Athlete'
     json.title 'Personal'
+    json.updatable true
   else
     json.title training.trainable.name
+  end
+  if training.is_coaching?(current_api_v1_user) 
+    json.updatable true
   end
 
   json.facility training.facility.name unless training.facility_id.nil?

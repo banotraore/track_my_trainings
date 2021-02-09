@@ -87,10 +87,12 @@
  @import "black-dashboard-react/custom/rtl.scss";
  @import "black-dashboard-react/custom/input-group.scss";
 
+// calendar
+@import "black-dashboard-react/custom/calendar";
+// custom react datetime
+@import "black-dashboard-react/custom/datetime";
 
-
-
- // Vendor / Plugins
+// Vendor / Plugins
 
 @import "black-dashboard-react/custom/vendor/plugin-perfect-scrollbar.scss";
 @import "black-dashboard-react/custom/vendor/plugin-react-notification-alert.scss";

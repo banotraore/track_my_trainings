@@ -27,7 +27,6 @@ const Dashboard = () => {
     axios
       .get("infos")
       .then((response) => {
-        console.log(response);
         setUserInfos(response.data.user);
         if (response.data.user.coachID) {
           dispatch({
@@ -98,7 +97,6 @@ const Dashboard = () => {
                                     <th>Sets num</th>
                                     <th>Reps num</th>
                                     <th>Discipline</th>
-                                    <th className="text-center">Result</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -109,10 +107,7 @@ const Dashboard = () => {
                                           <td>{discipline.sets_num}</td>
                                           <td>{discipline.reps_num}</td>
                                           <td>{discipline.discipline}</td>
-                                          <td className="text-center">
-                                            {discipline.performance &&
-                                              discipline.performance.result}
-                                          </td>
+                                        
                                         </tr>
                                       )
                                     )}
@@ -212,7 +207,6 @@ const Dashboard = () => {
                                     <th>Sets num</th>
                                     <th>Reps num</th>
                                     <th>Discipline</th>
-                                    <th className="text-center">Result</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -226,10 +220,7 @@ const Dashboard = () => {
                                           <td>{discipline.sets_num}</td>
                                           <td>{discipline.reps_num}</td>
                                           <td>{discipline.discipline}</td>
-                                          <td className="text-center">
-                                            {discipline.performance &&
-                                              discipline.performance.result}
-                                          </td>
+                                         
                                         </tr>
                                       )
                                     )}
