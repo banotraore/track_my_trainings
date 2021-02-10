@@ -31,5 +31,6 @@ export const customStyles = {
   },
 };
 
-
 export const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/(2[0-9]{3}) (0[0-9]|1[0-9]|2[0123])\:([012345][0-9])$/;
+
+export const API_WS_ROOT = `${process.env.REACT_APP_ACTION_CABLE}`;

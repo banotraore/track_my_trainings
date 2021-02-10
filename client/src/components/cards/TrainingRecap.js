@@ -24,7 +24,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload, faEdit, faSave } from "@fortawesome/free-solid-svg-icons";
 import Select from "react-select";
 import axios from "axios";
-import { customStyles } from "../../utils/Constants";
+import { customStyles, API_WS_ROOT } from "../../utils/Constants";
+import DownloadTrainingWebSocket from "../DownloadTrainingWebSocket";
+import actionCable from "actioncable";
 
 import { toast } from "react-toastify";
 toast.configure();
@@ -33,6 +35,9 @@ const TrainingRecap = (props) => {
   const data = props.data;
   const disciplines = props.disciplines;
   const [trainingEditMode, setTrainingEditMode] = useState(false);
+
+  const CableApp = {};
+  CableApp.cable = actionCable.createConsumer(`${API_WS_ROOT}`);
 
   const updateTraining = () => {
     if (trainingEditMode) {
@@ -89,7 +94,7 @@ const TrainingRecap = (props) => {
       })
       .catch((error) => {
         console.log(error.response.data.exception);
-        toast.error(error.response.data.exception, {
+        toast.error(error.response.data.error, {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -101,6 +106,26 @@ const TrainingRecap = (props) => {
       });
   };
 
+  const downloadTraining = () => {
+    axios
+      .get(`ddl-training/${data.id}`)
+
+      // .then((response) => {
+      //   console.log(response);
+      // })
+
+      .catch((error) => {
+        toast.error(error.response.data.error, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          progress: undefined,
+        });
+        console.log(error.response);
+      });
+  };
   return (
     <div>
       <Modal
@@ -141,6 +166,15 @@ const TrainingRecap = (props) => {
               />
             </>
           )}
+          <FontAwesomeIcon
+            icon={faDownload}
+            size="lg"
+            color="#f5d442"
+            onClick={() => {
+              downloadTraining();
+            }}
+            style={{ marginLeft: 10, marginRight: 10 }}
+          />
         </ModalHeader>
         {data.on_spikes && (
           <ModalBody style={{ color: "red" }}>
@@ -262,17 +296,12 @@ const TrainingRecap = (props) => {
             </ModalBody>
           </Form>
         </ModalBody>
-
-        <ModalFooter>
-          <Button
-            color="secondary"
-            onClick={() => {
-              props.toggle();
-            }}
-          >
-            Close
-          </Button>
-        </ModalFooter>
+        {data && data.id && (
+          <DownloadTrainingWebSocket
+            cableApp={CableApp}
+            training_id={data.id}
+          />
+        )}
       </Modal>
     </div>
   );

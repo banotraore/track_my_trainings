@@ -41,5 +41,14 @@ module TrackMyTrainings
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
+
+    # Sidekiq
+    # nil will use the "default" queue
+    # some of these options will not work with your Rails version
+    # add/remove as necessary
+    config.action_mailer.deliver_later_queue_name = nil # defaults to "mailers"
+    config.active_storage.queues.analysis   = nil       # defaults to "active_storage_analysis"
+    config.active_storage.queues.purge      = nil       # defaults to "active_storage_purge"
+    config.active_storage.queues.mirror     = nil       # defaults to "active_storage_mirror"
   end
 end

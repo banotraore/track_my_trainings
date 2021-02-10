@@ -153,7 +153,7 @@ t3.save
   training =  Training.create(
     facility_id: Facility.order(Arel.sql('RANDOM()')).first.id,
     trainable: choice,
-    date: "#{Faker::Date.between(from: Date.today - 100.days, to: Date.today + 100.days)} #{rand_hour}:#{rand_min}",
+    date: "#{Faker::Date.between(from: Date.today - 150.days, to: Date.today + 100.days)} #{rand_hour}:#{rand_min}",
     description: Faker::TvShows::Suits.quote
   )
   training_disciplines = rand(1..10)

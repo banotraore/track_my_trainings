@@ -9,7 +9,10 @@ Rails.application.routes.draw do
       resources :athletes, only: %i[index]
       get '/infos' => 'users#get_infos'
       get '/my-profile' => 'users#get_profile'
+      get '/ddl-training/:id' => 'trainings#download_training'
       post 'multiple-trainings' => 'trainings#create_multiple_record'
+
+      mount ActionCable.server => '/cable'
     end
   end
 

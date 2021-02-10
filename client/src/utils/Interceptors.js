@@ -64,14 +64,15 @@ function Interceptor() {
         // });
       }
       if (error.response.status === 404) {
-        toast.error("Not found", {
-          position: "top-right",
-          autoClose: 1500,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          progress: undefined,
-        });
+        console.log(error);
+        // toast.error("Not found", {
+        //   position: "top-right",
+        //   autoClose: 1500,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   progress: undefined,
+        // });
       }
       return Promise.reject(error);
     }

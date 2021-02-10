@@ -53,6 +53,11 @@ class Api::V1::TrainingsController < ApplicationController
     end
   end
 
+  def download_training
+    DownloadCalendarJob.perform_later(params[:id])
+    head :accepted
+  end
+
   private
 
   def find_trainable

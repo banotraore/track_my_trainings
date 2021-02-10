@@ -107,7 +107,6 @@ const Dashboard = () => {
                                           <td>{discipline.sets_num}</td>
                                           <td>{discipline.reps_num}</td>
                                           <td>{discipline.discipline}</td>
-                                        
                                         </tr>
                                       )
                                     )}
@@ -220,7 +219,6 @@ const Dashboard = () => {
                                           <td>{discipline.sets_num}</td>
                                           <td>{discipline.reps_num}</td>
                                           <td>{discipline.discipline}</td>
-                                         
                                         </tr>
                                       )
                                     )}
@@ -277,7 +275,7 @@ const Dashboard = () => {
       ) : (
         <Container>
           <Col>
-            <h2> ...</h2>
+            <h2>Loading ...</h2>
           </Col>
         </Container>
       )}
