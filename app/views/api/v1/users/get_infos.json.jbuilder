@@ -12,8 +12,8 @@ json.user do
       json.coach_teams @user.coach.teams do |team|
         json.id team.id
         json.name team.name
-        json.athletes_count team.athletes.count
-        json.athletes_count team.coaches.count
+        json.athletes_count team.athletes.size
+        json.coaches_count team.coaches.size
         json.groups team.groups.coach_in_group(@user) do |group|
           json.id group.id
           json.name group.name
@@ -78,7 +78,9 @@ json.user do
       json.athlete_teams @user.athlete.teams do |team|
         json.id team.id
         json.name team.name
-        json.athletes_count team.athletes.count
+        json.athletes_count team.athletes.size
+        json.coaches_count team.coaches.size
+
         json.groups team.groups.user_in_group(@user) do |group|
           json.id group.id
           json.name group.name

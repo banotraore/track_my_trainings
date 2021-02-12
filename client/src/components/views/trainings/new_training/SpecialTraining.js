@@ -140,7 +140,6 @@ const SpecialTraining = (props) => {
       }, 400);
     },
   });
-  console.log("formik values", formik.values && formik.values);
 
   return (
     <FormikProvider value={formik}>

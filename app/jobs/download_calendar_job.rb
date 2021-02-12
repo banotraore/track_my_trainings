@@ -4,7 +4,6 @@ class DownloadCalendarJob < ApplicationJob
   queue_as :default
 
   def perform(training_id)
-    # byebug
     return if training_id.blank?
 
     @training = Training.find(training_id)

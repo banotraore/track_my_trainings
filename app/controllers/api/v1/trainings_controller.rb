@@ -16,7 +16,9 @@ class Api::V1::TrainingsController < ApplicationController
     @training.training_disciplines.build(training_disciplines_params[:training_disciplines_attributes])
 
     if @training.save!
-
+      if  @training.trainable_type == 'Group'
+        NotificationsJob.perform_later(@training)
+      end
       render :create, message: 'Training created', status: :ok
     else
       render json: { errors: @training.errors.full_messages, message: 'Trouble during the process, Something went wrong !' }, status: :unprocessable_entity
@@ -31,6 +33,7 @@ class Api::V1::TrainingsController < ApplicationController
         @training = @trainable.trainings.build(training_params)
         @training.training_disciplines.build(training_disciplines_params[:training_disciplines_attributes])
         @training.save!
+        NotificationsJob.perform_later(@training)
       end
       if !trainings.empty?
         render json: { training: trainings, message: 'Trainings created', status: :created }

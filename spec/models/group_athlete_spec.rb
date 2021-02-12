@@ -8,6 +8,8 @@ RSpec.describe GroupAthlete, type: :model do
 
   describe 'validations' do
     subject { create(:group_athlete) }
-    it { should validate_uniqueness_of(:athlete_id).case_insensitive.scoped_to(:group_id) }
+    it {
+      should validate_uniqueness_of(:athlete_id).case_insensitive.scoped_to(:group_id).with_message("You're already in this group")
+    }
   end
 end

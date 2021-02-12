@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
@@ -7,14 +7,8 @@ import classnames from "classnames";
 import PerfectScrollbar from "perfect-scrollbar";
 
 // reactstrap components
-import {
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
+import { Col, Nav, NavItem, NavLink, Row } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-
 
 var ps;
 
@@ -35,7 +29,6 @@ const Sidebar = (props) => {
       }
     };
   });
- 
 
   const { routes, logo, activeTab, toggleTab } = props;
   let logoImg = null;
@@ -52,32 +45,21 @@ const Sidebar = (props) => {
         </div>
       </Link>
     );
-    logoText = (
-      <Link
-        to={logo.outterLink}
-        className="simple-text logo-normal"
-        onClick={props.toggleSidebar}
-      >
-        {logo.text}
-      </Link>
-    );
   }
 
   return (
     <div className="sidebar" data={"green"}>
       <div className="sidebar-wrapper" ref={sidebarRef}>
-        {logoImg !== null || logoText !== null ? (
-          <div className="logo">
-            {logoImg}
-            {logoText}
-          </div>
-        ) : null}
+        <Row>
+          <Col>
+            <div className="logo">{logoImg} </div>
+          </Col>
+        </Row>
         <Nav>
           {routes &&
             routes.map((route, index) => (
               <NavItem key={index}>
                 <NavLink
-             
                   style={{ color: "white" }}
                   className={classnames({ active: activeTab === index })}
                   onClick={() => {
@@ -88,7 +70,6 @@ const Sidebar = (props) => {
                 </NavLink>
               </NavItem>
             ))}
-
         </Nav>
       </div>
     </div>

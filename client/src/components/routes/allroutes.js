@@ -38,7 +38,7 @@ var routes = [
   },
 
   {
-    name: "User Profile",
+    name: "My Profile",
     icon: faUser,
     component: Profile,
   },

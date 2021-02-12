@@ -16,11 +16,25 @@ function Interceptor() {
   axios.defaults.headers.common["Content-Type"] = "application/json";
   axios.defaults.headers.common["Accept"] = "application/json";
 
+  // Update the headers credentials
+  const upadateHeaders = (response) => {
+    if (response.headers["access-token"]) {
+      const authHeaders = {
+        "access-token": response.headers["access-token"],
+        client: response.headers["client"],
+        uid: response.headers["uid"],
+        expiry: response.headers["expiry"],
+        "token-type": response.headers["token-type"],
+      };
+      window.localStorage.setItem("authHeaders", JSON.stringify(authHeaders));
+    }
+  };
   axios.interceptors.request.use(
     async (config) => {
       const authHeaders = JSON.parse(
         window.localStorage.getItem("authHeaders")
       );
+
       if (authHeaders) {
         config.headers[config.method] = {
           "access-token": authHeaders["access-token"],
@@ -28,6 +42,7 @@ function Interceptor() {
           uid: authHeaders["uid"],
         };
       }
+
       return config;
     },
     async (error) => {
@@ -37,44 +52,20 @@ function Interceptor() {
 
   axios.interceptors.response.use(
     async (response) => {
-      // it he response is successful update the header with new values
-      if (response.headers["access-token"]) {
-        const authHeaders = {
-          "access-token": response.headers["access-token"],
-          client: response.headers["client"],
-          uid: response.headers["uid"],
-          expiry: response.headers["expiry"],
-          "token-type": response.headers["token-type"],
-        };
-        window.localStorage.setItem("authHeaders", JSON.stringify(authHeaders));
-      }
+      upadateHeaders(response);
+
       return response;
     },
     async (error) => {
-      if (error.response.status === 401 || error.response.status === 403) {
-        dispatch({ type: "LOGGING", user: { isLogged: false } });
+      if (error.response.status !== 401) {
+        upadateHeaders(error.response);
+        return Promise.reject(error);
+      }
+      if (error.response.status === 401) {
+        console.log("401 error");
 
-        // toast.error("Unauthorized", {
-        //   position: "top-right",
-        //   autoClose: 1000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   progress: undefined,
-        // });
+        dispatch({ type: "LOGGING", user: { isLogged: false } });
       }
-      if (error.response.status === 404) {
-        console.log(error);
-        // toast.error("Not found", {
-        //   position: "top-right",
-        //   autoClose: 1500,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   progress: undefined,
-        // });
-      }
-      return Promise.reject(error);
     }
   );
   return <React.Fragment />;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import classNames from "classnames";
 
-
 import {
   Collapse,
   DropdownToggle,
@@ -14,25 +13,43 @@ import {
   Nav,
   Container,
   NavbarToggler,
+  ModalHeader,
+  ModalBody,
+  Modal,
+  Button,
+  InputGroup,
+  Input,
+  Row,
+  Col,
 } from "reactstrap";
+
 import { LoginContext } from "../../context/LoginContext";
+import { SidebarAndHeaderContext } from "../../context/SidebarAndHeaderContext";
 import { toast } from "react-toastify";
 import Photo from "../../assets/track.webp";
 import Photowebp from "../../assets/track.jpg";
+import { Link, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+
+import Autocomplete from "../../utils/Autocomplete";
 
 toast.configure();
-const Header = (props) => {
-  //
+const Header = () => {
   const [collapseOpen, setcollapseOpen] = useState(false);
   const [color, setcolor] = useState("navbar-transparent");
 
-  //
-  const { user, dispatch } = useContext(LoginContext);
-  const [, setLoggedIn] = useState(false);
- 
+  const { dispatch } = useContext(LoginContext);
+  const {
+    sidebarOpened,
+    toggleSidebar,
+    teams,
+    modalSearch,
+    toggleModalSearch,
+  } = useContext(SidebarAndHeaderContext);
 
+  const location = useLocation();
 
-  //
   useEffect(() => {
     window.addEventListener("resize", updateColor);
     // Specify how to clean up after this effect:
@@ -40,15 +57,6 @@ const Header = (props) => {
       window.removeEventListener("resize", updateColor);
     };
   });
-
-  useEffect(() => {
-    if (user.isLogged === true) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  }, [user]);
-
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)
   const updateColor = () => {
     if (window.innerWidth < 993 && collapseOpen) {
@@ -70,7 +78,6 @@ const Header = (props) => {
   const logout = () => {
     window.localStorage.removeItem("authHeaders");
     window.localStorage.removeItem("user");
-    setLoggedIn(false);
     dispatch({
       type: "LOGGING",
       user: {
@@ -93,19 +100,22 @@ const Header = (props) => {
       <Navbar className={classNames("navbar-absolute", color)} expand="lg">
         <Container fluid>
           <div className="navbar-wrapper">
-            <div
-              className={classNames("navbar-toggle d-inline", {
-                toggled: props.sidebarOpened,
-              })}
-            >
-              <NavbarToggler onClick={props.toggleSidebar}>
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
-              </NavbarToggler>
-            </div>
-            <NavbarBrand href="#bano" onClick={(e) => e.preventDefault()}>
-              {props.brandText}
+            {location.pathname === "/" && (
+              <div
+                className={classNames("navbar-toggle d-inline", {
+                  toggled: sidebarOpened,
+                })}
+              >
+                <NavbarToggler onClick={toggleSidebar}>
+                  <span className="navbar-toggler-bar bar1" />
+                  <span className="navbar-toggler-bar bar2" />
+                  <span className="navbar-toggler-bar bar3" />
+                </NavbarToggler>
+              </div>
+            )}
+
+            <NavbarBrand tag={Link} to="/">
+              Track my Trainings{" "}
             </NavbarBrand>
           </div>
           <NavbarToggler onClick={toggleCollapse}>
@@ -115,13 +125,14 @@ const Header = (props) => {
           </NavbarToggler>
           <Collapse navbar isOpen={collapseOpen}>
             <Nav className="ml-auto" navbar>
+              <InputGroup className="search-bar">
+                <Button color="link" onClick={toggleModalSearch}>
+                  <FontAwesomeIcon icon={faSearch} size="2x" />
+                  <span className="d-lg-none d-md-block">Search</span>
+                </Button>
+              </InputGroup>
               <UncontrolledDropdown nav>
-                <DropdownToggle
-                  caret
-                  color="default"
-                  nav
-                  onClick={(e) => e.preventDefault()}
-                >
+                <DropdownToggle caret color="default" nav>
                   <div className="photo">
                     <picture>
                       <source srcSet={Photowebp} />
@@ -143,6 +154,27 @@ const Header = (props) => {
           </Collapse>
         </Container>
       </Navbar>
+      <Modal
+        modalClassName="modal-search"
+        isOpen={modalSearch}
+        toggle={toggleModalSearch}
+        autoFocus={false}
+      >
+        <ModalBody>
+          <Row>
+            <Col>
+              <Autocomplete suggestions={teams} />
+            </Col>
+            <Col xs={1}>
+              <FontAwesomeIcon
+                icon={faTimesCircle}
+                onClick={toggleModalSearch}
+                size="2x"
+              />
+            </Col>
+          </Row>
+        </ModalBody>
+      </Modal>
     </>
   );
 };

@@ -39,7 +39,6 @@ const GroupTraining = (props) => {
       .then((response) => {
         formik.resetForm();
 
-        console.log(response.data);
         toast.success(response.data.message, {
           position: "top-right",
           autoClose: 1000,
