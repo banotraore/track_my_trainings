@@ -18,7 +18,7 @@ import {
   Modal,
   Button,
   InputGroup,
-  Input,
+  Badge,
   Row,
   Col,
 } from "reactstrap";
@@ -31,8 +31,11 @@ import Photowebp from "../../assets/track.jpg";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import NotificationWebSocket from "../NotificationWebSocket";
 
 import Autocomplete from "../../utils/Autocomplete";
+import { API_WS_ROOT } from "../../utils/Constants";
+import actionCable from "actioncable";
 
 toast.configure();
 const Header = () => {
@@ -49,6 +52,10 @@ const Header = () => {
   } = useContext(SidebarAndHeaderContext);
 
   const location = useLocation();
+
+  const [notifications, setNotifications] = useState([]);
+  const CableApp = {};
+  CableApp.cable = actionCable.createConsumer(`${API_WS_ROOT}`);
 
   useEffect(() => {
     window.addEventListener("resize", updateColor);
@@ -131,6 +138,32 @@ const Header = () => {
                   <span className="d-lg-none d-md-block">Search</span>
                 </Button>
               </InputGroup>
+              {notifications && notifications.length > 0 && (
+                <UncontrolledDropdown nav>
+                  <DropdownToggle
+                    caret
+                    color="default"
+                    data-toggle="dropdown"
+                    nav
+                  >
+                    <Badge color="warning" pill>
+                      {notifications.length}
+                    </Badge>
+                  </DropdownToggle>
+                  <DropdownMenu className="dropdown-navbar" right tag="ul">
+                    {notifications &&
+                      notifications.map((notif, index) => (
+                        <NavLink tag="li" key={index}>
+                          <DropdownItem className="nav-item" onClick={() => {
+                            console.log("touched index ", index);
+                          }}>
+                            {notif.content}
+                          </DropdownItem>
+                        </NavLink>
+                      ))}
+                  </DropdownMenu>
+                </UncontrolledDropdown>
+              )}
               <UncontrolledDropdown nav>
                 <DropdownToggle caret color="default" nav>
                   <div className="photo">
@@ -175,6 +208,11 @@ const Header = () => {
           </Row>
         </ModalBody>
       </Modal>
+      <NotificationWebSocket
+        cableApp={CableApp}
+        setNotifications={setNotifications}
+       
+      />
     </>
   );
 };
