@@ -59,13 +59,11 @@ function Interceptor() {
     async (error) => {
       if (error.response.status !== 401) {
         upadateHeaders(error.response);
-        return Promise.reject(error);
       }
       if (error.response.status === 401) {
-        console.log("401 error");
-
         dispatch({ type: "LOGGING", user: { isLogged: false } });
       }
+      return Promise.reject(error);
     }
   );
   return <React.Fragment />;

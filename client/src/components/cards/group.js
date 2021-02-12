@@ -27,8 +27,6 @@ const group = (props) => {
           });
         })
         .catch((error) => {
-          console.log(error.response);
-
           toast.error(error.response.data, {
             position: "top-right",
             autoClose: 2000,

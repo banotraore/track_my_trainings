@@ -18,7 +18,7 @@ const Dashboard = (props) => {
     <div className="content">
       <>
         <Row>
-          {userInfos && userInfos.userInfos && (
+          {userInfos && userInfos.last_training && (
             <Col x2={12} sm={8} md={8}>
               <Row>
                 <Card

@@ -58,6 +58,7 @@ function Login() {
         });
       })
       .catch((e) => {
+        // console.log(e);
         // console.log(e.response);
         e.response.data.errors.forEach((element) => {
           toast.error(element, {
