@@ -1,6 +1,7 @@
 json.team do
   json.id @team.id
   json.name @team.name
+  json.slug @team.slug
 
   json.groups_count @team.groups.size
   json.groups @team.groups do |group|

@@ -9,6 +9,7 @@ json.user do
     json.athlete_teams @user.athlete.teams do |team|
       json.id team.id
       json.name team.name
+      json.slug team.slug
       json.athletes_count team.athletes.count
       json.groups team.groups.user_in_group(@user) do |group|
         json.id group.id
@@ -16,9 +17,7 @@ json.user do
       end
     end
   end
-  
 end
-
 
 json.teams @teams do |team|
   json.id team.id
@@ -28,7 +27,6 @@ json.teams @teams do |team|
     json.athletes team.athletes do |athlete|
       json.id athlete.id
     end
-    
+
   end
-  
 end

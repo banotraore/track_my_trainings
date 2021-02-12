@@ -46,7 +46,7 @@ const Autocomplete = (props) => {
       setShowSuggestions(false);
       setUserInput(filteredSuggestions[activeSuggestion].name);
       toggleModalSearch();
-      history.push(`/teams/${filteredSuggestions[activeSuggestion].id}`);
+      history.push(`/teams/${filteredSuggestions[activeSuggestion].slug}`);
     }
     // User pressed the up arrow
     else if (e.keyCode === 38) {

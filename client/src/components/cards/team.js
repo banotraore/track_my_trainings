@@ -6,7 +6,7 @@ import Image from "../../assets/running.png";
 import { SidebarAndHeaderContext } from "../../context/SidebarAndHeaderContext";
 
 const Team = (props) => {
-  const { name, id } = props;
+  const { name, slug } = props;
   const { sidebarOpened, toggleSidebar } = useContext(SidebarAndHeaderContext);
 
   return (
@@ -16,7 +16,7 @@ const Team = (props) => {
         <h6 className="fs-0 mb-0">
           <Link
             className="stretched-link"
-            to={`/teams/${id}`}
+            to={`/teams/${slug}`}
             onClick={() => {
               if (sidebarOpened) {
                 toggleSidebar();

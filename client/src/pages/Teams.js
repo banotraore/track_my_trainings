@@ -9,24 +9,33 @@ const Teams = ({ match }) => {
   const id = match.params.id;
   const [team, setTeam] = useState({});
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
+  const [giphy, setGiphy] = useState({});
 
+  const history = useHistory();
   useEffect(() => {
     axios
       .get(`teams/${id}`)
       .then((response) => {
         setTeam(response.data.team);
         setLoading(false);
+        if (response.data.team.groups_count === 0) {
+          return axios.get("get_gif");
+        }
+      })
+      .then((response) => {
+        if (response) {
+          console.log(response);
+          setGiphy(response.data.data[0]);
+        }
       })
       .catch((error) => {
         console.log(error.response);
-
-        console.log(error);
-        if (error.response.status === 404) {
+        if (error && error.response && error.response.status === 404) {
           history.push("/404");
         }
       });
   }, [id]);
+
   return (
     <div className="content">
       {!loading ? (
@@ -51,7 +60,7 @@ const Teams = ({ match }) => {
             </Col>
           </Row>
 
-          {team && team.groups && team.groups.length > 0 && (
+          {team && team.groups && team.groups.length > 0 ? (
             <>
               <Row style={{ justifyContent: "center", textAlign: "center" }}>
                 <h2>Want to join a group? Click on the picture</h2>
@@ -72,6 +81,20 @@ const Teams = ({ match }) => {
                 ))}
               </Row>
             </>
+          ) : (
+            giphy &&
+            giphy.embed_url && (
+              <Row style={{ justifyContent: "center", textAlign: "center" }}>
+                <Col>
+                  <img
+                    alt={giphy.embed_url}
+                    width={giphy.images.fixed_width.width}
+                    height={giphy.images.fixed_width.width}
+                    src={giphy.images.fixed_width.url}
+                  />
+                </Col>{" "}
+              </Row>
+            )
           )}
         </>
       ) : null}

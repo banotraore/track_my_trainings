@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       get '/infos' => 'users#get_infos'
       get '/my-profile' => 'users#get_profile'
       get '/ddl-training/:id' => 'trainings#download_training'
+      get 'get_gif' => 'fetches#get_gif'
       post 'multiple-trainings' => 'trainings#create_multiple_record'
 
       mount ActionCable.server => '/cable'
