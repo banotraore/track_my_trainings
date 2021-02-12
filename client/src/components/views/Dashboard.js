@@ -18,15 +18,15 @@ const Dashboard = (props) => {
     <div className="content">
       <>
         <Row>
-          <Col x2={12} sm={8} md={8}>
-            <Row>
-              <Card
-                body
-                inverse
-                // color="info"
-              >
-                <Row>
-                  {userInfos && userInfos.last_training && (
+          {userInfos && userInfos.userInfos && (
+            <Col x2={12} sm={8} md={8}>
+              <Row>
+                <Card
+                  body
+                  inverse
+                  // color="info"
+                >
+                  <Row>
                     <>
                       <Col xs={12} sm={4}>
                         <CardBody>
@@ -84,11 +84,11 @@ const Dashboard = (props) => {
                         </Card>
                       </Col>
                     </>
-                  )}
-                </Row>
-              </Card>
-            </Row>
-          </Col>
+                  </Row>
+                </Card>
+              </Row>
+            </Col>
+          )}
 
           {userInfos && userInfos.next_training && (
             <Col x2={12} sm={4} md={4} className="text-center">

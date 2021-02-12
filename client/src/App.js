@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Interceptors from "./utils/Interceptors";
@@ -9,11 +9,13 @@ import Teams from "./pages/Teams";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PerfectScrollbar from "perfect-scrollbar";
 import Header from "./components/navbars/Header";
-
+import { LoginContext } from "./context/LoginContext";
 var ps;
 
 const App = () => {
   const mainPanelRef = useRef(null);
+  const { user } = useContext(LoginContext);
+  const pathname = window.location.pathname;
 
   useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
@@ -55,19 +57,19 @@ const App = () => {
     <div>
       <Interceptors />
       <BrowserRouter>
-        <Header />
-          <Switch>
-            <PrivateRoute
-              exact
-              path="/"
-              component={Homepage}
-              mainPanelRef={mainPanelRef}
-            />
-            <PrivateRoute exact path="/teams/:id" component={Teams} />
+        {pathname !== "/login" && user.isLogged && <Header />}
+        <Switch>
+          <PrivateRoute
+            exact
+            path="/"
+            component={Homepage}
+            mainPanelRef={mainPanelRef}
+          />
+          <PrivateRoute exact path="/teams/:id" component={Teams} />
 
-            <Route exact path="/login" component={Login} />
-            <Route component={NotFound} />
-          </Switch>
+          <Route exact path="/login" component={Login} />
+          <Route component={NotFound} />
+        </Switch>
       </BrowserRouter>
     </div>
   );
