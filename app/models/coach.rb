@@ -3,11 +3,15 @@ class Coach < ApplicationRecord
   belongs_to :user
 
   has_many :group_coaches, dependent: :destroy
-  has_many :groups, through: :group_coaches, dependent: :destroy
+  has_many :groups, -> { includes([:team]) }, through: :group_coaches, dependent: :destroy
   has_many :teams, through: :groups, dependent: :destroy
   has_many :athletes, through: :groups, source: :group_athletes, dependent: :destroy
 
-  has_many :group_trainings, through: :groups, source: :trainings, dependent: :destroy
+  has_many :group_trainings, lambda {
+                               includes(%i[facility training_disciplines trainable])
+                             }, through: :groups, source: :trainings, dependent: :destroy
+
+  # has_many :group_trainings, through: :groups, source: :trainings, dependent: :destroy
 
   # only show the next training of an athlete
   def next_coach_training

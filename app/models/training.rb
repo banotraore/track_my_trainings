@@ -3,7 +3,7 @@ class Training < ApplicationRecord
   belongs_to :trainable, polymorphic: true
   belongs_to :facility, optional: true
 
-  has_many :training_disciplines, -> { order(exercice_order: :asc) }, dependent: :destroy
+  has_many :training_disciplines, -> { includes([:disciplinable]).order(exercice_order: :asc) }, dependent: :destroy
 
   validates :date, presence: true
 

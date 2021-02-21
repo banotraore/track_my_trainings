@@ -6,9 +6,11 @@ class Athlete < ApplicationRecord
   has_many :groups, through: :group_athletes, dependent: :destroy
   has_many :teams, -> { distinct }, through: :groups, dependent: :destroy
   has_many :coaches, through: :groups, source: :group_coaches, dependent: :destroy
-  has_many :group_trainings, through: :groups, source: :trainings, dependent: :destroy
+  has_many :group_trainings, lambda {
+                               includes(%i[facility training_disciplines trainable])
+                             }, through: :groups, source: :trainings, dependent: :destroy
 
-  has_many :trainings, as: :trainable, dependent: :destroy
+  has_many :trainings, -> { includes(%i[facility training_disciplines]) }, as: :trainable, dependent: :destroy
 
   # only show the next training of an athlete
   def last_training
