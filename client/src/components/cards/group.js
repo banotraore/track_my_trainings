@@ -27,14 +27,22 @@ const group = (props) => {
           });
         })
         .catch((error) => {
-          toast.error(error.response.data, {
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            progress: undefined,
-          });
+          var errors = error.response.data.errors;
+          console.log(error.response);
+          for (const key in errors) {
+            if (Object.hasOwnProperty.call(errors, key)) {
+              const element = errors[key];
+
+              toast.error(element[0], {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                progress: undefined,
+              });
+            }
+          }
         });
     }
   };

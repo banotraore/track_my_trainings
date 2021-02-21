@@ -5,16 +5,13 @@ class Api::V1::GroupAthletesController < ApplicationController
   def create
     @group_athlete = GroupAthlete.new(athlete_id: @athlete.id, group_id: params[:group_id])
 
-    if @group_athlete.save!
+    begin
+      @group_athlete.save!
       render json: { group_athlete: @group_athlete, message: 'Group joined!!!', status: :created }
-    else
+    rescue Exception => e
       render json: { errors: @group_athlete.errors.messages, message: 'Trouble during the process' },
              status: :unprocessable_entity
-
-            end
-            
-          rescue ActiveRecord::RecordInvalid => e
-            render json: e.message, status: :unprocessable_entity
+    end
   end
 
   private
