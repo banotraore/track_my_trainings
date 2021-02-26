@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext } from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
@@ -32,7 +32,6 @@ const Sidebar = (props) => {
 
   const { routes, logo, activeTab, toggleTab } = props;
   let logoImg = null;
-  let logoText = null;
   if (logo && logo.outterLink) {
     logoImg = (
       <Link

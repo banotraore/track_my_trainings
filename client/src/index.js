@@ -1,16 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+
 import "./scss/style.scss";
 import App from "./App";
 import LoginContextProvider from "./context/LoginContext";
 import SidebarAndHeaderContextProvider from "./context/SidebarAndHeaderContext";
 ReactDOM.render(
-  <React.StrictMode>
+  <BrowserRouter>
     <LoginContextProvider>
       <SidebarAndHeaderContextProvider>
         <App />
       </SidebarAndHeaderContextProvider>
     </LoginContextProvider>
-  </React.StrictMode>,
+  </BrowserRouter>,
   document.getElementById("root")
 );

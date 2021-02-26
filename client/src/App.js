@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useContext } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 import Interceptors from "./utils/Interceptors";
 import Homepage from "./layouts/Homepage";
@@ -15,8 +15,8 @@ var ps;
 const App = () => {
   const mainPanelRef = useRef(null);
   const { user } = useContext(LoginContext);
-  const pathname = window.location.pathname;
-
+  var location = useLocation();
+  const pathname = location.pathname;
   useEffect(() => {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
@@ -56,21 +56,19 @@ const App = () => {
   return (
     <div>
       <Interceptors />
-      <BrowserRouter>
-        {pathname !== "/login" && user.isLogged && <Header />}
-        <Switch>
-          <PrivateRoute
-            exact
-            path="/"
-            component={Homepage}
-            mainPanelRef={mainPanelRef}
-          />
-          <PrivateRoute exact path="/teams/:id" component={Teams} />
+      {pathname !== "/login" && user.isLogged && <Header />}
+      <Switch>
+        <PrivateRoute
+          exact
+          path="/"
+          component={Homepage}
+          mainPanelRef={mainPanelRef}
+        />
+        <PrivateRoute exact path="/teams/:id" component={Teams} />
 
-          <Route exact path="/login" component={Login} />
-          <Route component={NotFound} />
-        </Switch>
-      </BrowserRouter>
+        <Route exact path="/login" component={Login} />
+        <Route component={NotFound} />
+      </Switch>
     </div>
   );
 };

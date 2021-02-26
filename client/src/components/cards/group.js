@@ -67,6 +67,7 @@ const group = (props) => {
 
                     <img
                       src={Pic}
+                      alt="running pic"
                       className="img-thumbnail img-fluid rounded-circle mb-3 shadow-sm"
                     />
                   </picture>
@@ -82,6 +83,7 @@ const group = (props) => {
 
                   <img
                     src={NoCoachPic}
+                    alt="running pic"
                     className="img-thumbnail img-fluid rounded-circle mb-3 shadow-sm"
                   />
                 </picture>

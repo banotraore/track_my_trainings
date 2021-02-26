@@ -29,12 +29,10 @@ const NewTrainingModal = (props) => {
   const [activeTab, setActiveTab] = useState(
     user.coachID && user.coachID !== "" ? "1" : "3"
   );
-  const [loading, setLoading] = useState(true);
 
   const toggleTab = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
-  // console.log(athletes);
   useEffect(() => {
     getGroups();
   }, []);
@@ -53,7 +51,6 @@ const NewTrainingModal = (props) => {
 
             setGroups(responseOne.data.groups);
             setAthletes(responseTwo.data.athletes);
-            setLoading(false);
           })
         )
         .catch((error) => {
@@ -131,7 +128,6 @@ const NewTrainingModal = (props) => {
           </TabContent>
         </Col>
       </Modal>
-   
     </Container>
   );
 };

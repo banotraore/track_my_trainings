@@ -13,7 +13,6 @@ import {
   Nav,
   Container,
   NavbarToggler,
-  ModalHeader,
   ModalBody,
   Modal,
   Button,
