@@ -11,6 +11,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+
 const Dashboard = (props) => {
   const userInfos = props.userInfos;
 
@@ -120,6 +121,7 @@ const Dashboard = (props) => {
         </Row>
 
         {/* coach start */}
+
         {userInfos && userInfos.last_coach_training && (
           <Row>
             <Col x2={12} sm={8} md={8}>

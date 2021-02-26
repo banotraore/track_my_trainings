@@ -7,6 +7,13 @@ json.user do
 
   if @user.coach
     json.coachID @user.coach.id
+    if @user.coach.athletes.exists?
+      json.coach_athletes @user.coach.athletes do |athlete|
+        json.id athlete.id
+        json.first_name athlete.user.first_name
+        json.last_name athlete.user.last_name
+      end
+    end
 
     if @user.coach.teams.exists?
       json.coach_teams @user.coach.teams do |team|
@@ -74,6 +81,14 @@ json.user do
   end
 
   if @user.athlete
+
+    if @user.athlete.coaches.exists?
+      json.athlete_coachs @user.athlete.coaches do |coach|
+        json.id coach.id
+        json.first_name coach.user.first_name
+        json.last_name coach.user.last_name
+      end
+    end
 
     if @user.athlete.teams.exists?
       json.athlete_teams @user.athlete.teams do |team|

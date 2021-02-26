@@ -50,5 +50,7 @@ module TrackMyTrainings
     config.active_storage.queues.analysis   = nil       # defaults to "active_storage_analysis"
     config.active_storage.queues.purge      = nil       # defaults to "active_storage_purge"
     config.active_storage.queues.mirror     = nil       # defaults to "active_storage_mirror"
+
+    config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
   end
 end

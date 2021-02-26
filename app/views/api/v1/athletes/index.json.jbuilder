@@ -1,4 +1,4 @@
-json.athletes @athletes do |group_athlete|
-  json.id group_athlete.athlete.id
-  json.name "#{group_athlete.athlete.user.first_name} #{group_athlete.athlete.user.last_name}"
+json.athletes @athletes do |athlete|
+  json.id athlete.id
+  json.name "#{athlete.user.first_name} #{athlete.user.last_name}"
 end

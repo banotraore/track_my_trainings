@@ -14,6 +14,7 @@ import {
   Card,
   CardBody,
   CardTitle,
+  CardSubtitle,
 } from "reactstrap";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -100,6 +101,36 @@ function Login() {
         isSubmitting,
       }) => (
         <Container style={{ marginTop: "15px", marginBottom: "15px" }}>
+          <Row style={{ justifyContent: "center", textAlign: "center" }}>
+            <Col>
+              <Card style={{ margin: "30px" }}>
+                <CardBody>
+                  <CardTitle tag="h4">
+                    If{" "}
+                    <strong className="mb-2 text-warning">
+                      you're a coach,{" "}
+                    </strong>
+                    try these credentials.{" "}
+                    <strong className="mb-2 text-warning">
+                      email: zizou@trackmytrainings.com, password: password{" "}
+                    </strong>
+                  </CardTitle>
+                </CardBody>
+                <CardBody>
+                  <CardTitle tag="h4">
+                    If{" "}
+                    <strong className="mb-2 text-info">
+                      you're an athlete,{" "}
+                    </strong>
+                    try these credentials.{" "}
+                    <strong className="mb-2 text-info">
+                      email: johndoe@trackmytrainings.com, password: password{" "}
+                    </strong>
+                  </CardTitle>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
           <Row>
             <Col>
               <Form onSubmit={handleSubmit}>

@@ -3,7 +3,7 @@ class Group < ApplicationRecord
   belongs_to :team
 
   has_many :group_athletes, -> { includes(athlete: :user) }, dependent: :destroy
-  has_many :group_coaches, -> { includes(athlete: :user) }, dependent: :destroy
+  has_many :group_coaches, -> { includes(coach: :user) }, dependent: :destroy
   has_many :trainings, as: :trainable, dependent: :destroy
 
   validates :name, presence: :true, uniqueness: { case_sensitive: false, scope: :team_id }

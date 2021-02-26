@@ -4,8 +4,10 @@ class Athlete < ApplicationRecord
 
   has_many :group_athletes, dependent: :destroy
   has_many :groups, through: :group_athletes, dependent: :destroy
-  has_many :teams, -> { distinct }, through: :groups, dependent: :destroy
-  has_many :coaches, through: :groups, source: :group_coaches, dependent: :destroy
+  has_many :teams, -> {  order(name: :asc).distinct }, through: :groups, dependent: :destroy
+  has_many :group_coaches, through: :groups, dependent: :destroy
+  has_many :coaches, -> { includes(:user).distinct }, through: :group_coaches, source: :coach, dependent: :destroy
+
   has_many :group_trainings, lambda {
                                includes(%i[facility training_disciplines trainable])
                              }, through: :groups, source: :trainings, dependent: :destroy

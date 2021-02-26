@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "../assets/running.png";
-import { Row, Col, Card, Container, CardText, CardBody } from "reactstrap";
+import { Row, Col, Card, CardText, CardBody } from "reactstrap";
 import axios from "axios";
 import Group from "../components/cards/group";
 import { useHistory } from "react-router-dom";

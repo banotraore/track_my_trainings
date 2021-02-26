@@ -26,7 +26,6 @@ const Homepage = (props) => {
   const [userInfos, setUserInfos] = useState({});
 
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     getUserData();
   }, []);

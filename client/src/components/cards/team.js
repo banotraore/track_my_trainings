@@ -15,6 +15,7 @@ const Team = (props) => {
       <Media body>
         <h6 className="fs-0 mb-0">
           <Link
+            style={{ color: "white" }}
             className="stretched-link"
             to={`/teams/${slug}`}
             onClick={() => {

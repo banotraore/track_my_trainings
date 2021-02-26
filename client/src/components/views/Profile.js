@@ -3,6 +3,7 @@ import React from "react";
 import { Row, Col, Card, CardHeader, CardText, CardBody } from "reactstrap";
 
 import Image from "../../assets/track-lanes.jpg";
+
 import { toast } from "react-toastify";
 import Team from "../cards/team";
 toast.configure();
@@ -38,7 +39,7 @@ const Profile = (props) => {
         userInfos.athlete_teams &&
         userInfos.athlete_teams.length > 0 && (
           <Card>
-            <CardHeader> Teams </CardHeader>
+            <CardHeader> My Teams </CardHeader>
 
             <CardBody>
               <Row>

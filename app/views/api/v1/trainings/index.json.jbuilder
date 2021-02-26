@@ -3,18 +3,19 @@ json.trainings @trainings do |training|
   json.start training.date.utc.strftime('%F %H:%M:%S')
   json.description training.description
   json.on_spikes training.on_spikes
-  if training.trainable_type == 'Athlete'
+  if training.trainable_type == 'Athlete' && training.trainable_id == current_api_v1_user.athlete.id
     json.title 'Personal'
+    json.updatable true
+  elsif training.trainable_type == 'Athlete' && training.trainable_id != current_api_v1_user.athlete.id
+    json.title "#{training.trainable.user.first_name} training"
     json.updatable true
   else
     json.title training.trainable.name
   end
-  if training.is_coaching?(current_api_v1_user) 
-    json.updatable true
-  end
+  json.updatable true if training.is_coaching?(current_api_v1_user)
 
   json.facility training.facility.name unless training.facility_id.nil?
-  # only show the training_disciplines if it's a past session, the user is coaching that session 
+  # only show the training_disciplines if it's a past session, the user is coaching that session
   # or if it's a personnal session trainable_type == 'Athlete'
   if (training.date <= DateTime.now || training.is_coaching?(current_api_v1_user) || training.trainable_type == 'Athlete') && training.training_disciplines.exists?
     json.training_disciplines training.training_disciplines do |discipline|
