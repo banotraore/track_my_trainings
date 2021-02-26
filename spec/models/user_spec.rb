@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
-  describe "associations" do
-    it { should have_one(:athlete) } 
-    it { should have_one(:coach) } 
+  describe 'associations' do
+    it { should have_one(:athlete) }
+    it { should have_one(:coach) }
+    it { should have_many(:notifications) }
   end
-  
+
   describe 'validations' do
     subject { create(:user) }
 

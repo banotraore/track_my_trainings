@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   has_one :athlete, dependent: :destroy
   has_one :coach, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   validates :first_name, presence: :true
   validates :last_name, presence: :true

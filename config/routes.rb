@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :groups, only: %i[index]
       resources :athletes, only: %i[index]
       resources :group_athletes, only: %i[create]
+      resources :notifications, only: %i[index update]
 
       get '/infos' => 'users#get_infos'
       get '/my-profile' => 'users#get_profile'

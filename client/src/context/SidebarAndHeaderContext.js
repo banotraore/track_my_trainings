@@ -1,5 +1,7 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { LoginContext } from "./LoginContext";
+
 export const SidebarAndHeaderContext = createContext();
 
 const SidebarAndHeaderContextProvider = ({ children }) => {
@@ -8,21 +10,24 @@ const SidebarAndHeaderContextProvider = ({ children }) => {
   );
   const [teams, setTeams] = useState([]);
   const [modalSearch, setmodalSearch] = useState(false);
-    // this function is to open the Search modal
-    const toggleModalSearch = () => {
-      setmodalSearch(!modalSearch);
-    };
+  // this function is to open the Search modal
+  const toggleModalSearch = () => {
+    setmodalSearch(!modalSearch);
+  };
+  const { user } = useContext(LoginContext);
 
   useEffect(() => {
-    axios
-      .get("teams")
-      .then((response) => {
-        setTeams(response.data.teams);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+    if (user.isLogged) {
+      axios
+        .get("teams")
+        .then((response) => {
+          setTeams(response.data.teams);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [user]);
 
   // this function opens and closes the sidebar on small devices
   const toggleSidebar = () => {
@@ -36,11 +41,13 @@ const SidebarAndHeaderContextProvider = ({ children }) => {
     toggleSidebar,
     teams,
     modalSearch,
-    toggleModalSearch
+    toggleModalSearch,
   };
 
   return (
-    <SidebarAndHeaderContext.Provider value={value}>{children}</SidebarAndHeaderContext.Provider>
+    <SidebarAndHeaderContext.Provider value={value}>
+      {children}
+    </SidebarAndHeaderContext.Provider>
   );
 };
 

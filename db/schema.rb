@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_12_152802) do
+ActiveRecord::Schema.define(version: 2021_02_26_211050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -87,6 +87,15 @@ ActiveRecord::Schema.define(version: 2021_02_12_152802) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "notifications", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "content"
+    t.uuid "user_id", null: false
+    t.boolean "is_opened", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
   create_table "races", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -182,6 +191,7 @@ ActiveRecord::Schema.define(version: 2021_02_12_152802) do
   add_foreign_key "group_coaches", "coaches"
   add_foreign_key "group_coaches", "groups"
   add_foreign_key "groups", "teams"
+  add_foreign_key "notifications", "users"
   add_foreign_key "training_disciplines", "trainings"
   add_foreign_key "trainings", "facilities"
 end

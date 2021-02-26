@@ -35,6 +35,7 @@ import NotificationWebSocket from "../NotificationWebSocket";
 import Autocomplete from "../../utils/Autocomplete";
 import { API_WS_ROOT } from "../../utils/Constants";
 import actionCable from "actioncable";
+import axios from "axios";
 
 toast.configure();
 const Header = () => {
@@ -79,6 +80,35 @@ const Header = () => {
       setcolor("bg-white");
     }
     setcollapseOpen(!collapseOpen);
+  };
+
+  useEffect(() => {
+    getNotifications();
+  }, []);
+  const getNotifications = () => {
+    axios
+      .get("notifications")
+      .then((response) => {
+        setNotifications(response.data.notifications);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+
+  const updateNotificationStatus = (e) => {
+    axios
+      .patch(`notifications/${e}`, { is_opened: true })
+
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+  const removeNotification = (e) => {
+    updateNotificationStatus(e);
+    setNotifications((prevState) =>
+      prevState.filter((person) => person.id !== e)
+    );
   };
 
   const logout = () => {
@@ -153,9 +183,12 @@ const Header = () => {
                     {notifications &&
                       notifications.map((notif, index) => (
                         <NavLink tag="li" key={index}>
-                          <DropdownItem className="nav-item" onClick={() => {
-                            console.log("touched index ", index);
-                          }}>
+                          <DropdownItem
+                            className="nav-item"
+                            onClick={() => {
+                              removeNotification(notif.id);
+                            }}
+                          >
                             {notif.content}
                           </DropdownItem>
                         </NavLink>
@@ -210,7 +243,6 @@ const Header = () => {
       <NotificationWebSocket
         cableApp={CableApp}
         setNotifications={setNotifications}
-       
       />
     </>
   );

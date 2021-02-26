@@ -12,6 +12,13 @@ Throw.destroy_all
 
 Discipline.destroy_all
 
+# Create the default athlete and coach
+User.create(email: 'johndoe@trackmytrainings.com', password: 'password', first_name: 'john', last_name: 'doe',
+            username: 'john_doe')
+zidane = User.create(email: 'zizou@trackmytrainings.com', password: 'password', first_name: 'zinedine', last_name: 'zidane',
+                     username: 'zizou')
+Coach.create(user_id: zidane.id)
+
 40.times do
   users = [Faker::Sports::Basketball.player, Faker::Sports::Football.player]
   user = users.sample
@@ -96,7 +103,6 @@ end
   )
 end
 
-
 15.times do
   Facility.create(
     address: Faker::Address.street_address,
@@ -106,11 +112,11 @@ end
 
 # Track events for 'short distance runners because 5k is enough!!!!'
 races = ['50m', '60m', '100m', '150m', '200m', '250m', '300m', '350m', '400m', '400m hurdles', '800m', '1500m', '5k',
-  '1 hurdle', '3 hurdles', '6 hurdles']
+         '1 hurdle', '3 hurdles', '6 hurdles']
 races.each do |race|
-value = Race.create(name: race)
-value.build_discipline
-value.save
+  value = Race.create(name: race)
+  value.build_discipline
+  value.save
 end
 
 j1 = Jump.create(name: 'Long jump')
@@ -150,7 +156,7 @@ t3.save
   rand_min = [0o0, 30].sample
   choices = [Group.order(Arel.sql('RANDOM()')).first, Athlete.order(Arel.sql('RANDOM()')).first]
   choice = choices.sample
-  training =  Training.create(
+  training = Training.create(
     facility_id: Facility.order(Arel.sql('RANDOM()')).first.id,
     trainable: choice,
     date: "#{Faker::Date.between(from: Date.today - 150.days, to: Date.today + 100.days)} #{rand_hour}:#{rand_min}",
@@ -168,10 +174,9 @@ t3.save
       reps_num: rand(1..10),
       exercice_order: order
     )
-    order +=1
+    order += 1
   end
 end
-
 
 # Individual and groups trainings with some exercices (TrainingDiscipline) but without Facility
 50.times do
@@ -179,7 +184,7 @@ end
   rand_min = [0o0, 30].sample
   choices = [Group.order(Arel.sql('RANDOM()')).first, Athlete.order(Arel.sql('RANDOM()')).first]
   choice = choices.sample
-  training=  Training.create(
+  training = Training.create(
     trainable: choice,
     date: "#{Faker::Date.between(from: Date.today - 60.days, to: Date.today + 60.days)} #{rand_hour}:#{rand_min}",
     description: Faker::TvShows::Suits.quote
@@ -196,6 +201,10 @@ end
       reps_num: rand(1..10),
       exercice_order: order
     )
-    order +=1
+    order += 1
   end
+end
+
+80.times do
+  Notification.create(user_id: User.order(Arel.sql('RANDOM()')).first.id, content: Faker::Movies::StarWars.quote)
 end
