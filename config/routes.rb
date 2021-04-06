@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       get '/ddl-training/:id' => 'trainings#download_training'
       get 'get_gif' => 'fetches#get_gif'
       post 'multiple-trainings' => 'trainings#create_multiple_record'
+      post '/check_captcha' => 'fetches#check_captcha'
 
       mount ActionCable.server => '/cable'
     end

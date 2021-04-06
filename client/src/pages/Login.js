@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
 
@@ -19,12 +19,14 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Recaptcha from "../components/Recaptcha";
 
 toast.configure();
 
 function Login() {
   const { user, dispatch } = useContext(LoginContext);
   const history = useHistory();
+  const [botDetected, setBotDetected] = useState(true);
 
   useEffect(() => {
     if (user.isLogged) {
@@ -35,7 +37,7 @@ function Login() {
   const Url = {
     login: "auth/sign_in",
   };
-
+  console.log(botDetected);
   function postLogin(e) {
     axios
       .post(Url.login, e)
@@ -86,6 +88,9 @@ function Login() {
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
+          if (botDetected) {
+            return;
+          }
           postLogin(values);
           setSubmitting(false);
         }, 400);
@@ -130,6 +135,22 @@ function Login() {
               </Card>
             </Col>
           </Row>
+
+          {botDetected === true && (
+            <Container className="text-center">
+              <Col>
+                <h4>Just checking if you're human ...</h4>
+              </Col>
+            </Container>
+          )}
+
+          {botDetected === false && (
+            <Container className="text-center">
+              <Col>
+                <h4>So you're not a bot ...</h4>
+              </Col>
+            </Container>
+          )}
           <Row>
             <Col>
               <Form onSubmit={handleSubmit}>
@@ -191,11 +212,14 @@ function Login() {
                           color="secondary"
                           type="submit"
                           block
-                          disabled={isSubmitting}
+                          disabled={isSubmitting || botDetected}
                         >
                           Submit
                         </Button>
                       </Col>
+                    </Row>
+                    <Row>
+                      <Recaptcha setBotDetected={setBotDetected} />
                     </Row>
                   </CardBody>
                 </Card>
