@@ -1,3 +1,4 @@
+puts "--- seeds start ---"
 User.destroy_all
 Team.destroy_all
 Group.destroy_all
@@ -208,3 +209,4 @@ end
 80.times do
   Notification.create(user_id: User.order(Arel.sql('RANDOM()')).first.id, content: Faker::Movies::StarWars.quote)
 end
+puts "--- seeds done ---"
